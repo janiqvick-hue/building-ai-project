@@ -1,47 +1,67 @@
-# Tekoälypohjainen vaikeustason optimoija tekstiseikkailuille
+# Symptom Summarizer (Esitietolomakkeen täyttäjä)
 
-Tekoälyn rakentaminen -kurssiprojekti
+Final project for the Building AI course
 
-## Yhteenveto
+## Summary
 
-Tämä projekti kehittää tekoälypohjaisen työkalun tekstiseikkailupelien pelitestaukseen ja vaikeustason optimointiin. Järjestelmä analysoi pelaajien valintoja ja tekstisyötteitä, hyödyntäen lineaarista regressiota ja kiipeilyalgoritmia (hill-climbing) pelin tahditukseen, pelaajien turhautumisen estämiseen ja dynaamiseen vihjejärjestelmään.
+This AI-powered assistant helps patients describe their symptoms in plain, everyday language before seeing a doctor. It then analyzes the input and translates it into a concise, professional medical summary for healthcare providers, saving time and improving diagnostic accuracy. (257 characters)
 
-## Tausta
 
-Tekstiseikkailupelit nojaavat vahvasti pulmiin ja tarinaan, mutta vaikeustason tasapainottaminen on haastavaa. Pelaajat turhautuvat, jos pulmat ovat liian epäselviä, mikä johtaa pelin keskeyttämiseen. Manuaalinen testaaminen on työlästä, ja tavoitteena onkin ratkaista Unitylla (C#) kehitettävien pelien haasteet, kuten vaikeustason skaalautuminen eri taitotasoille.
+## Background
 
-## Miten sitä käytetään?
+Medical consultations are often limited by time, and patients can find it stressful or difficult to recall and describe their symptoms accurately to a doctor. 
+* **Time pressure:** Doctors have very few minutes per patient, and extracting history takes up most of it.
+* **Communication gap:** Patients use colloquial terms, while electronic health records require structured, clinical language.
+* **Motivation:** My motivation is to reduce the administrative burden on healthcare professionals and ensure that patients feel heard and understood, leading to better and faster care.
 
-Työkalu integroituu pelin syötteenhallintaan, kerää anonyymiä istuntodataa ja tunnistaa ongelmakohtia (esim. liian pitkät ajat huoneessa tai tunnistamattomat komennot). Kehittäjät saavat raportteja, ja pelaajat nauttivat sujuvammasta kokemuksesta dynaamisten vihjeiden ansiosta. Esimerkki analyysirutiinista:
+
+## How is it used?
+
+Before a scheduled appointment or during digital triage, the patient interacts with a user-friendly chatbot interface. The patient explains what is wrong in their own words (e.g., "My chest feels tight and I've been coughing for three days"). 
+
+The AI asks clarifying follow-up questions if critical information (like duration or severity) is missing. Finally, it generates a structured note directly for the doctor's screen.
+
+This tool is used in:
+* General practitioner (GP) clinics
+* Digital telehealth platforms
+* Emergency room triage desks
+
+
+## Data sources and AI methods
+
+The system relies on advanced Natural Language Processing (NLP) and Large Language Models (LLMs) trained on medical corpora. 
+* **Data Sources:** De-identified, open-source medical dialogue datasets and clinical guidelines (such as [MIMIC-III](https://mit.edu) or public medical ontologies like SNOMED-CT).
+* **AI Methods:** 
+  * Named Entity Recognition (NER) to extract symptoms, anatomical locations, and timelines.
+  * Text Summarization to transform long conversational text into bulleted medical summaries.
 
 ```python
-def analyze_player_friction(room_logs):
-    # Analysoi syötevirheet ja huoneessa vietetyn ajan
-    for room in room_logs:
-        failed_commands = room['unrecognized_inputs']
-        time_spent = room['duration_seconds']
-        
-        # Hälytys, jos pelaaja on jumissa
-        if len(failed_commands) > 5 and time_spent > 300:
-            print(f"Alert: High puzzle friction detected in {room['name']}.")
+# Conceptual example of parsing patient text (simplified NLP concept)
+def parse_symptoms(patient_text):
+    symptoms_db = ['cough', 'fever', 'headache', 'chest pain']
+    detected = [s for s in symptoms_db if s in patient_text.lower()]
+    return f"Chief Complaint: Patient reports {', '.join(detected)}."
+
+print(parse_symptoms("I have a bad cough and a mild fever since yesterday."))
 ```
 
-## Data- ja tekoälytekniikat
+## Challenges
 
-Projektissa käytetään anonyymeja pelilokeja ja tekstin samankaltaisuusvektoreita. Keskeisiä tekoälymenetelmiä ovat:
-* **Lineaarinen regressio:** Ennustaa pelin läpäisyaikaa.
-* **K-Nearest Neighbor (KNN):** Ryhmittelee pelaajakäyttäytymistä.
-* **Simulated Annealing / Hill Climbing:** Optimoi vaikeustasoa ja vihjeiden antamista.
+What this project *does not* solve:
+* **No Automatic Diagnosis:** This tool does **not** diagnose diseases or prescribe medication. It only summarizes communication.
+* **Ethical and Data Privacy Concerns:** Medical data is highly sensitive (GDPR/HIPAA regulations). The AI must process data securely and completely anonymize or delete conversations after the summary is sent to the electronic health record.
+* **Hallucinations:** LLMs can sometimes fabricate information, so the summary must always be easily verifiable by the human doctor.
 
-## Haasteet
 
-Tämä ei korjaa huonoa tarinankerrontaa. On tärkeää huomioida yksityisyys (anonyymi data) ja välttää ylisovitusta (overfitting) pienellä testiryhmällä.
+## What next?
 
-## Mitä seuraavaksi?
+To grow this project into a real-world application, it would need:
+* **Integration:** Connecting via API to existing electronic health record (EHR) systems used in hospitals.
+* **Multilingual support:** Helping immigrants or non-native speakers describe symptoms in their own language and translating it to the local medical language.
+* **Collaboration:** Partnering with medical doctors and healthcare data security experts to ensure clinical safety and compliance.
 
-Jatkokehityksenä järjestelmä voisi toimia avoimen lähdekoodin lisäosana (Unity/Godot) ja sisältää pilvipohjaisen analytiikan, mikä vaatii yhteistyötä datatekniikan asiantuntijoiden kanssa.
 
-## Kiitokset
+## Acknowledgments
 
-* Inspiraationa Reaktorin ja Helsingin yliopiston *Tekoälyn rakentaminen* -kurssi.
-* Inspiraationa klassiset interaktiiviset tarinat ja NLP-työkalut.
+* Inspired by the challenges faced in modern digital healthcare triage.
+* Built as a final project for the Elements of AI / Building AI course by Reaktor and University of Helsinki.
