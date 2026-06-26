@@ -1,16 +1,16 @@
-# AI-Driven Difficulty Optimizer for Text Adventures
+# Tekoälypohjainen vaikeustason optimoija tekstiseikkailuille
 
-Building AI -kurssiprojekti
+Tekoälyn rakentaminen -kurssiprojekti
 
 ## Yhteenveto
 
 Tämä projekti kehittää tekoälypohjaisen työkalun tekstiseikkailupelien pelitestaukseen ja vaikeustason optimointiin. Järjestelmä analysoi pelaajien valintoja ja tekstisyötteitä, hyödyntäen lineaarista regressiota ja kiipeilyalgoritmia (hill-climbing) pelin tahditukseen, pelaajien turhautumisen estämiseen ja dynaamiseen vihjejärjestelmään.
 
-## Background
+## Tausta
 
 Tekstiseikkailupelit nojaavat vahvasti pulmiin ja tarinaan, mutta vaikeustason tasapainottaminen on haastavaa. Pelaajat turhautuvat, jos pulmat ovat liian epäselviä, mikä johtaa pelin keskeyttämiseen. Manuaalinen testaaminen on työlästä, ja tavoitteena onkin ratkaista Unitylla (C#) kehitettävien pelien haasteet, kuten vaikeustason skaalautuminen eri taitotasoille.
 
-## How is it used?
+## Miten sitä käytetään?
 
 Työkalu integroituu pelin syötteenhallintaan, kerää anonyymiä istuntodataa ja tunnistaa ongelmakohtia (esim. liian pitkät ajat huoneessa tai tunnistamattomat komennot). Kehittäjät saavat raportteja, ja pelaajat nauttivat sujuvammasta kokemuksesta dynaamisten vihjeiden ansiosta. Esimerkki analyysirutiinista:
 
@@ -26,22 +26,22 @@ def analyze_player_friction(room_logs):
             print(f"Alert: High puzzle friction detected in {room['name']}.")
 ```
 
-## Data sources and AI methods
+## Data- ja tekoälytekniikat
 
 Projektissa käytetään anonyymeja pelilokeja ja tekstin samankaltaisuusvektoreita. Keskeisiä tekoälymenetelmiä ovat:
 * **Lineaarinen regressio:** Ennustaa pelin läpäisyaikaa.
 * **K-Nearest Neighbor (KNN):** Ryhmittelee pelaajakäyttäytymistä.
 * **Simulated Annealing / Hill Climbing:** Optimoi vaikeustasoa ja vihjeiden antamista.
 
-## Challenges
+## Haasteet
 
 Tämä ei korjaa huonoa tarinankerrontaa. On tärkeää huomioida yksityisyys (anonyymi data) ja välttää ylisovitusta (overfitting) pienellä testiryhmällä.
 
-## What next?
+## Mitä seuraavaksi?
 
 Jatkokehityksenä järjestelmä voisi toimia avoimen lähdekoodin lisäosana (Unity/Godot) ja sisältää pilvipohjaisen analytiikan, mikä vaatii yhteistyötä datatekniikan asiantuntijoiden kanssa.
 
-## Acknowledgments
+## Kiitokset
 
-* Inspiraationa Reaktorin ja Helsingin yliopiston *Building AI* -kurssi.
+* Inspiraationa Reaktorin ja Helsingin yliopiston *Tekoälyn rakentaminen* -kurssi.
 * Inspiraationa klassiset interaktiiviset tarinat ja NLP-työkalut.
